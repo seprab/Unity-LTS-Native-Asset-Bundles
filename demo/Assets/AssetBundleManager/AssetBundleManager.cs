@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
 /*  The AssetBundle Manager provides a High-Level API for working with AssetBundles. 
     The AssetBundle Manager will take care of loading AssetBundles and their associated 
@@ -457,7 +458,7 @@ namespace AssetBundles
             }
             else
             {
-                WWW download = null;
+                UnityWebRequest download = null;
 
                 if (!bundleBaseDownloadingURL.EndsWith("/"))
                 {
@@ -468,9 +469,9 @@ namespace AssetBundles
 
                 // For manifest assetbundle, always download it as we don't have hash for it.
                 if (isLoadingAssetBundleManifest)
-                    download = new WWW(url);
+                    download = new UnityWebRequest(url);
                 else
-                    download = WWW.LoadFromCacheOrDownload(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0);
+                    download = UnityWebRequestAssetBundle.GetAssetBundle(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0);
 
                 m_InProgressOperations.Add(new AssetBundleDownloadFromWebOperation(assetBundleName, download));
             }

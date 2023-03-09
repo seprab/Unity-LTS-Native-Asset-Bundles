@@ -25,10 +25,6 @@ namespace AssetBundles
             {
                 case BuildTarget.Android:
                     return "Android";
-#if UNITY_TVOS
-                case BuildTarget.tvOS:
-                    return "tvOS";
-#endif
                 case BuildTarget.iOS:
                     return "iOS";
                 case BuildTarget.WebGL:
@@ -36,8 +32,6 @@ namespace AssetBundles
                 case BuildTarget.StandaloneWindows:
                 case BuildTarget.StandaloneWindows64:
                     return "Windows";
-                case BuildTarget.StandaloneOSXIntel:
-                case BuildTarget.StandaloneOSXIntel64:
                 case BuildTarget.StandaloneOSX:
                     return "OSX";
                 // Add more build targets for your own.
