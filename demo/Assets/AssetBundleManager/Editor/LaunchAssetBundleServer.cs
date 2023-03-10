@@ -79,7 +79,8 @@ namespace AssetBundles
 
         static void Run()
         {
-            string pathToAssetServer = Path.GetFullPath("Assets/AssetBundleManager/Editor/AssetBundleServer.exe");
+            string pathToAssetServer = Path.GetFullPath("../AssetBundleServer/bin/Debug/net6.0/AssetBundleServer.exe");
+            //string pathToAssetServer = Path.GetFullPath("Assets/AssetBundleManager/Editor/AssetBundleServer.exe");
             string assetBundlesDirectory = Path.Combine(Environment.CurrentDirectory, "AssetBundles");
 
             KillRunningAssetBundleServer();
@@ -118,7 +119,23 @@ namespace AssetBundles
                 foldersWithApi[i] = foldersWithApi[i].Split(Path.DirectorySeparatorChar).Last();
                 foldersWithApi[i] = foldersWithApi[i].Split('-').First();
 
-                if (float.Parse(foldersWithApi[i]) > profileVersion)
+                UnityEngine.Debug.Log($"foldersWithApi: {foldersWithApi[i]}");
+                UnityEngine.Debug.Log($"profileVersion: {profileVersion}");
+
+                var foldersWithApiSplitted = foldersWithApi[i].Split('.');
+                if(foldersWithApiSplitted.Length > 2)
+                {
+                    if (float.Parse(foldersWithApiSplitted[0]+"."+ foldersWithApiSplitted[0]) > profileVersion)
+                    {
+                        profileVersion = float.Parse(foldersWithApi[i]);
+                    }
+                    else if(float.Parse(foldersWithApiSplitted[0] + "." + foldersWithApiSplitted[0]) == profileVersion)
+                    {
+                        if (float.Parse(foldersWithApiSplitted[2]) > 0)
+                            profileVersion = float.Parse(foldersWithApi[i]);
+                    }
+                }
+                else if (float.Parse(foldersWithApi[i]) > profileVersion)
                 {
                     profileVersion = float.Parse(foldersWithApi[i]);
                 }

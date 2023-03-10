@@ -215,6 +215,7 @@ namespace AssetBundles
             }
             else
             {
+                Log(LogType.Info, $"Setting development Server URL to {url}");
                 AssetBundleManager.SetSourceAssetBundleURL(url);
             }
         }
@@ -292,7 +293,7 @@ namespace AssetBundles
 #endif
 
             LoadAssetBundle(manifestAssetBundleName, true);
-            var operation = new AssetBundleLoadManifestOperation(manifestAssetBundleName, "AssetBundleManifest", typeof(AssetBundleManifest));
+            AssetBundleLoadManifestOperation operation = new AssetBundleLoadManifestOperation(manifestAssetBundleName, "AssetBundleManifest", typeof(AssetBundleManifest));
             m_InProgressOperations.Add(operation);
             return operation;
         }
@@ -358,12 +359,6 @@ namespace AssetBundles
         // code is responsible for correctly loading the bundle.
         static protected bool UsesExternalBundleVariantResolutionMechanism(string baseAssetBundleName)
         {
-#if ENABLE_IOS_APP_SLICING
-            var url = GetAssetBundleBaseDownloadingURL(baseAssetBundleName);
-            if (url.ToLower().StartsWith("res://") ||
-                url.ToLower().StartsWith("odr://"))
-                return true;
-#endif
             return false;
         }
 
@@ -440,21 +435,11 @@ namespace AssetBundles
 
             if (bundleBaseDownloadingURL.ToLower().StartsWith("odr://"))
             {
-#if ENABLE_IOS_ON_DEMAND_RESOURCES
-                Log(LogType.Info, "Requesting bundle " + assetBundleName + " through ODR");
-                m_InProgressOperations.Add(new AssetBundleDownloadFromODROperation(assetBundleName));
-#else
                 new ApplicationException("Can't load bundle " + assetBundleName + " through ODR: this Unity version or build target doesn't support it.");
-#endif
             }
             else if (bundleBaseDownloadingURL.ToLower().StartsWith("res://"))
             {
-#if ENABLE_IOS_APP_SLICING
-                Log(LogType.Info, "Requesting bundle " + assetBundleName + " through asset catalog");
-                m_InProgressOperations.Add(new AssetBundleOpenFromAssetCatalogOperation(assetBundleName));
-#else
                 new ApplicationException("Can't load bundle " + assetBundleName + " through asset catalog: this Unity version or build target doesn't support it.");
-#endif
             }
             else
             {
@@ -467,7 +452,7 @@ namespace AssetBundles
 
                 string url = bundleBaseDownloadingURL + assetBundleName;
 
-                // For manifest assetbundle, always download it as we don't have hash for it.
+                //For manifest assetbundle, always download it as we don't have hash for it.
                 if (isLoadingAssetBundleManifest)
                     download = new UnityWebRequest(url);
                 else
@@ -555,7 +540,7 @@ namespace AssetBundles
             // Update all in progress operations
             for (int i = 0; i < m_InProgressOperations.Count;)
             {
-                var operation = m_InProgressOperations[i];
+                AssetBundleLoadOperation operation = m_InProgressOperations[i];
                 if (operation.Update())
                 {
                     i++;

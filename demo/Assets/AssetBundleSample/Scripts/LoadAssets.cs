@@ -12,9 +12,11 @@ public class LoadAssets : MonoBehaviour
     // Use this for initialization
     IEnumerator Start()
     {
+        Debug.Log("Initializing. Getting manifest");
         yield return StartCoroutine(Initialize());
 
         // Load asset.
+        Debug.Log("Getting sample asset");
         yield return StartCoroutine(InstantiateGameObjectAsync(assetBundleName, assetName));
     }
 
@@ -22,14 +24,6 @@ public class LoadAssets : MonoBehaviour
     // eg. Development server / iOS ODR / web URL
     void InitializeSourceURL()
     {
-        // If ODR is available and enabled, then use it and let Xcode handle download requests.
-        #if ENABLE_IOS_ON_DEMAND_RESOURCES
-        if (UnityEngine.iOS.OnDemandResources.enabled)
-        {
-            AssetBundleManager.SetSourceAssetBundleURL("odr://");
-            return;
-        }
-        #endif
         #if DEVELOPMENT_BUILD || UNITY_EDITOR
         // With this code, when in-editor or using a development builds: Always use the AssetBundle Server
         // (This is very dependent on the production workflow of the project.
@@ -54,7 +48,7 @@ public class LoadAssets : MonoBehaviour
         InitializeSourceURL();
 
         // Initialize AssetBundleManifest which loads the AssetBundleManifest object.
-        var request = AssetBundleManager.Initialize();
+        AssetBundleLoadManifestOperation request = AssetBundleManager.Initialize();
         if (request != null)
             yield return StartCoroutine(request);
     }

@@ -62,16 +62,15 @@ namespace AssetBundleServer
 
             HttpListener listener = new HttpListener();
 
-            /*
-            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName ());
+
+            IPHostEntry host = Dns.GetHostEntry(Dns.GetHostName());
             foreach (IPAddress ip in host.AddressList)
             {
-                //if (ip.AddressFamily.ToString() == "InterNetwork")
+                if (ip.AddressFamily.ToString() == "InterNetwork")
                 {
                     Console.WriteLine(ip.AddressFamily.ToString() + " - " + ip.ToString());
                 }
             }
-            */
 
 
             listener.Prefixes.Add(string.Format("http://*:{0}/", port));

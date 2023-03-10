@@ -1,7 +1,10 @@
 using UnityEngine;
 using UnityEngine.Networking;
-using UnityEngine.SceneManagement;
-using UnityEditor.SceneManagement;
+
+#if UNITY_EDITOR
+using EditorSceneManagement = UnityEditor.SceneManagement;
+#endif
+using PlayerSceneManagement = UnityEngine.SceneManagement;
 using System.Collections;
 
 namespace AssetBundles
@@ -116,10 +119,10 @@ namespace AssetBundles
                 return;
             }
 
-            LoadSceneParameters parameters = new LoadSceneParameters();
+            PlayerSceneManagement.LoadSceneParameters parameters = new PlayerSceneManagement.LoadSceneParameters();
             if (isAdditive)
-                parameters.loadSceneMode = LoadSceneMode.Additive;
-            m_Operation = EditorSceneManager.LoadSceneAsyncInPlayMode(levelPaths[0],parameters);
+                parameters.loadSceneMode = UnityEngine.SceneManagement.LoadSceneMode.Additive;
+            m_Operation = EditorSceneManagement.EditorSceneManager.LoadSceneAsyncInPlayMode(levelPaths[0],parameters);
         }
 
         public override bool Update()
@@ -157,7 +160,7 @@ namespace AssetBundles
             LoadedAssetBundle bundle = AssetBundleManager.GetLoadedAssetBundle(m_AssetBundleName, out m_DownloadingError);
             if (bundle != null)
             {
-                m_Request = SceneManager.LoadSceneAsync(m_LevelName, m_IsAdditive ? LoadSceneMode.Additive : LoadSceneMode.Single);
+                m_Request = PlayerSceneManagement.SceneManager.LoadSceneAsync(m_LevelName, m_IsAdditive ? PlayerSceneManagement.LoadSceneMode.Additive : PlayerSceneManagement.LoadSceneMode.Single);
                 return false;
             }
             else

@@ -36,19 +36,6 @@ namespace AssetBundles
             var options = BuildAssetBundleOptions.None;
 
             bool shouldCheckODR = EditorUserBuildSettings.activeBuildTarget == BuildTarget.iOS;
-#if UNITY_TVOS
-            shouldCheckODR |= EditorUserBuildSettings.activeBuildTarget == BuildTarget.tvOS;
-#endif
-            if (shouldCheckODR)
-            {
-#if ENABLE_IOS_ON_DEMAND_RESOURCES
-                if (PlayerSettings.iOS.useOnDemandResources)
-                    options |= BuildAssetBundleOptions.UncompressedAssetBundle;
-#endif
-#if ENABLE_IOS_APP_SLICING
-                options |= BuildAssetBundleOptions.UncompressedAssetBundle;
-#endif
-            }
 
             if (builds == null || builds.Length == 0)
             {
@@ -112,10 +99,6 @@ namespace AssetBundles
             BuildScript.BuildAssetBundles();
             WriteServerURL();
 
-#if UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0
-            BuildOptions option = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
-            BuildPipeline.BuildPlayer(levels, outputPath + targetName, EditorUserBuildSettings.activeBuildTarget, option);
-#else
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.scenes = levels;
             buildPlayerOptions.locationPathName = outputPath + targetName;
@@ -123,7 +106,6 @@ namespace AssetBundles
             buildPlayerOptions.target = EditorUserBuildSettings.activeBuildTarget;
             buildPlayerOptions.options = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
             BuildPipeline.BuildPlayer(buildPlayerOptions);
-#endif
         }
 
         public static void BuildStandalonePlayer()
@@ -148,10 +130,6 @@ namespace AssetBundles
             BuildScript.CopyAssetBundlesTo(Path.Combine(Application.streamingAssetsPath, Utility.AssetBundlesOutputPath));
             AssetDatabase.Refresh();
 
-#if UNITY_5_4 || UNITY_5_3 || UNITY_5_2 || UNITY_5_1 || UNITY_5_0
-            BuildOptions option = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
-            BuildPipeline.BuildPlayer(levels, outputPath + targetName, EditorUserBuildSettings.activeBuildTarget, option);
-#else
             BuildPlayerOptions buildPlayerOptions = new BuildPlayerOptions();
             buildPlayerOptions.scenes = levels;
             buildPlayerOptions.locationPathName = outputPath + targetName;
@@ -159,7 +137,6 @@ namespace AssetBundles
             buildPlayerOptions.target = EditorUserBuildSettings.activeBuildTarget;
             buildPlayerOptions.options = EditorUserBuildSettings.development ? BuildOptions.Development : BuildOptions.None;
             BuildPipeline.BuildPlayer(buildPlayerOptions);
-#endif
         }
 
         public static string GetBuildTargetName(BuildTarget target)
