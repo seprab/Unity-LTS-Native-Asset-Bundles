@@ -53,7 +53,7 @@ namespace AssetBundleServer
                 thread.Start(parentProcessID);
             }
 
-            bool detailedLogging = false;
+            bool detailedLogging = true;
             int port = 7888;
 
             Console.WriteLine("Starting up asset bundle server.", port);

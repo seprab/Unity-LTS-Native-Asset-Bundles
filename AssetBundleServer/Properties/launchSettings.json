@@ -2,7 +2,7 @@
   "profiles": {
     "AssetBundleServer": {
       "commandName": "Project",
-      "commandLineArgs": "D:\\Tickets\\1502743\\unity-assetbundle-demo\\demo\\AssetBundles\\Windows"
+      "commandLineArgs": "D:\\Tickets\\1502743\\unity-assetbundle-demo\\demo\\AssetBundles\\"
     }
   }
 }

@@ -90,9 +90,12 @@ namespace AssetBundles
 
             string args = assetBundlesDirectory;
             args = string.Format("\"{0}\" {1}", args, Process.GetCurrentProcess().Id);
-            ProcessStartInfo startInfo = ExecuteInternalMono.GetProfileStartInfoForMono(MonoInstallationFinder.GetMonoInstallation("MonoBleedingEdge"), GetMonoProfileVersion(), pathToAssetServer, args, true);
+            ProcessStartInfo startInfo = new ProcessStartInfo(pathToAssetServer);
+            startInfo.Arguments = args;
             startInfo.WorkingDirectory = assetBundlesDirectory;
-            startInfo.UseShellExecute = false;
+            startInfo.RedirectStandardOutput = startInfo.RedirectStandardError = startInfo.RedirectStandardInput = false;
+            startInfo.UseShellExecute = !startInfo.RedirectStandardOutput;
+            startInfo.Verb = "runas";
             Process launchProcess = Process.Start(startInfo);
             if (launchProcess == null || launchProcess.HasExited == true || launchProcess.Id == 0)
             {
@@ -103,6 +106,7 @@ namespace AssetBundles
             {
                 //We seem to have launched, let's save the PID
                 instance.m_ServerPID = launchProcess.Id;
+                UnityEngine.Debug.Log($"We seem to have launched the AssetBundleServer process with PID {instance.m_ServerPID}");
             }
         }
 
@@ -119,8 +123,8 @@ namespace AssetBundles
                 foldersWithApi[i] = foldersWithApi[i].Split(Path.DirectorySeparatorChar).Last();
                 foldersWithApi[i] = foldersWithApi[i].Split('-').First();
 
-                UnityEngine.Debug.Log($"foldersWithApi: {foldersWithApi[i]}");
-                UnityEngine.Debug.Log($"profileVersion: {profileVersion}");
+                //UnityEngine.Debug.Log($"foldersWithApi: {foldersWithApi[i]}");
+                //UnityEngine.Debug.Log($"profileVersion: {profileVersion}");
 
                 var foldersWithApiSplitted = foldersWithApi[i].Split('.');
                 if(foldersWithApiSplitted.Length > 2)

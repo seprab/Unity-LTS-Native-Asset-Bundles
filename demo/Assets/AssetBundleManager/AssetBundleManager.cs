@@ -292,6 +292,7 @@ namespace AssetBundles
                 return null;
 #endif
 
+            
             LoadAssetBundle(manifestAssetBundleName, true);
             AssetBundleLoadManifestOperation operation = new AssetBundleLoadManifestOperation(manifestAssetBundleName, "AssetBundleManifest", typeof(AssetBundleManifest));
             m_InProgressOperations.Add(operation);
@@ -454,10 +455,16 @@ namespace AssetBundles
 
                 //For manifest assetbundle, always download it as we don't have hash for it.
                 if (isLoadingAssetBundleManifest)
-                    download = new UnityWebRequest(url);
+                {
+                    Log(LogType.Info, $"Attempting to download Manifest from {url}");
+                    download = UnityWebRequestAssetBundle.GetAssetBundle(url);
+                }
                 else
+                {
+                    Log(LogType.Info, $"Attempting to download asset {assetBundleName} from {url} using hash {m_AssetBundleManifest.GetAssetBundleHash(assetBundleName)}");
                     download = UnityWebRequestAssetBundle.GetAssetBundle(url, m_AssetBundleManifest.GetAssetBundleHash(assetBundleName), 0);
-
+                }
+                download.SendWebRequest();
                 m_InProgressOperations.Add(new AssetBundleDownloadFromWebOperation(assetBundleName, download));
             }
             m_DownloadingBundles.Add(assetBundleName);
