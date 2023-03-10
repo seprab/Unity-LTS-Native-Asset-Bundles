@@ -18,8 +18,10 @@
 ExportedObj/
 .consulo/
 *.csproj
+!AssetBundleServer/AssetBundleServer.csproj
 *.unityproj
 *.sln
+!AssetBundleServer/AssetBundleServer.sln
 *.suo
 *.tmp
 *.user

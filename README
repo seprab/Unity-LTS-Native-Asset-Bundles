@@ -1,19 +1,18 @@
-NOTE: This project is no longer actively maintained by Unity. You are free to
-use the code as-is or modify as needed in accordance with the provided license
-for your own purposes, but there is no guarantee of performance or functionality,
-and no support will be provided.
+# Native Asset Bundle Sample 
 
-AssetBundle demo
-----------------
+***Disclaimer:*** This project is based on a project that was officially distributed by Unity Technologiies for version 4.x and 5.x which is no longer distributed/supported.
 
-This is asset bundle demo for Unity 5 which demonstrates what we can do in
-the new AssetBundle system. Unity 5.0 beta 21 or later is required.
+I decided to upgrade this project to Unity 2020.3 LTS for learning and testing purposes. I tested it on Win 11 with no issues, and I plan to test it next on Android.
 
-This Project and its Assets are designed to work with the AssetBundle Manager
-lesson, which can be found on the official Unity "Learn" site here:
-http://http://unity3d.com/learn/tutorials/modules/intermediate/editor/assetbundles
+My favorite way to test it:
+1. Open Unity project
+2. Click on *Support -> AssetBundles -> Build AssetBundles*
+3. Click on *Support -> AssetBundles -> Local Asset Bundle Server*
+4. Run any scene from *Assets/AssetBundleSample/Scenes/*.unity*
 
-Explanation
+Below, the original documentation that Unity Technologies used to share with the original project.
+
+## Explanation
 -----------
 
 The intent of the asset bundle manager is to provide a high-level API and a set
@@ -45,7 +44,7 @@ In this demo, we demonstrate:
   asset bundle with that variant exists, first variant in the list is the most
   preferred etc.
 
-Editor utilities and High-level API
+## Editor utilities and High-level API
 -----------------------------------
 
 The editor utilities are accessible via Assets>AssetBundles menu. The following
@@ -74,20 +73,23 @@ Local AssetBundle Server
 For more information on the high-level API provided by the asset bundle manager,
 see explanation in the AssetBundleManager.cs file.
 
-Scenes
+## Scenes
 ------
 
 There're 4 scenes under Assets/TestScenes folder:
 
-AssetLoader.unity
+### AssetLoader.unity
+
     Demonstrates how to load a normal asset from asset bundle.
     Additional information can be found in LoadAssets.cs script.
 
-SceneLoader.unity
+###  SceneLoader.unity
+
     Demonstrates how to load a scene from asset bundle.
     Additional information can be found in LoadScenes.cs script.
 
-VariantLoader.unity
+###  VariantLoader.unity
+
     Demonstrates how to load variant asset bundle.
     Additional information can be found in LoadVariants.cs script.
 
@@ -97,6 +99,7 @@ VariantLoader.unity
     devices to use high resolution texture.
 
     In the demo, the following resources are built:
+
         1. "My Assets HD" folder into "variant/myassets.hd" asset bundle.
             This is "hd" variant of "myassets" asset bundle.
         2. "My Assets SD" folder into "variant/myassets.sd" asset bundle.
@@ -120,32 +123,11 @@ VariantLoader.unity
 
     Asset bundle variants may not be simulated in editor.
 
-TanksLoader.unity
+###  TanksLoader.unity
+
     Demonstrates how to load different variant asset bundles dynamically.
 
-    On iOS this scene works properly only if on-demand resources are disabled.
-
-On-demand resource and App slicing usage on iOS
--------------------------------
-
-In order to demo on-demand resources or app slicing, corresponding option must
-be enabled in the player settings. No other changes are needed.
-
-After loading scene, you should see something like the following in the
-Xcode console:
-
-[AssetBundleManager] Requesting bundle iOS through ODR
-[AssetBundleManager] Requesting bundle cube-bundle through ODR
-[AssetBundleManager] Requesting bundle material-bundle through ODR
-
-The AssetLoader and SceneLoader scenes should result in flying cubes.
-
-The Variant loader scene should result in different scenes depending on
-devices: on iPads on should see "High-res" text, and "Low-res" text otherwise.
-This scene demonstrates sliced resources that are loaded both on-demand and
-statically included into initial application bundle.
-
-License
+## License
 -------
 
 The project is released by Unity Technologies under the MIT/X11 license; see the

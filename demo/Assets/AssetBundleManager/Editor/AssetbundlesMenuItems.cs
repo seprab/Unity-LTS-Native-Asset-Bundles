@@ -8,7 +8,7 @@ namespace AssetBundles
 {
     public class AssetBundlesMenuItems
     {
-        const string kSimulationMode = "Assets/AssetBundles/Simulation Mode";
+        const string kSimulationMode = "Support/AssetBundles/Simulation Mode";
 
         [MenuItem(kSimulationMode)]
         public static void ToggleSimulationMode()
@@ -23,7 +23,7 @@ namespace AssetBundles
             return true;
         }
 
-        [MenuItem("Assets/AssetBundles/Build AssetBundles")]
+        [MenuItem("Support/AssetBundles/Build AssetBundles")]
         static public void BuildAssetBundles()
         {
             BuildScript.BuildAssetBundles();
@@ -42,13 +42,13 @@ namespace AssetBundles
         }
 
 
-        [MenuItem ("Assets/AssetBundles/Build Player (for use with engine code stripping)")]
+        [MenuItem ("Support/AssetBundles/Build Player (for use with engine code stripping)")]
         static public void BuildPlayer ()
         {
             BuildScript.BuildPlayer();
         }
 
-        [MenuItem("Assets/AssetBundles/Build AssetBundles from Selection")]
+        [MenuItem("Support/AssetBundles/Build AssetBundles from Selection")]
         private static void BuildBundlesFromSelection()
         {
             // Get all selected *assets*
