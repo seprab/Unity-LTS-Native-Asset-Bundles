@@ -5,7 +5,6 @@ using AssetBundles;
 
 public class LoadAssets : MonoBehaviour
 {
-    public const string AssetBundlesOutputPath = "/AssetBundles/";
     public string assetBundleName;
     public string assetName;
 

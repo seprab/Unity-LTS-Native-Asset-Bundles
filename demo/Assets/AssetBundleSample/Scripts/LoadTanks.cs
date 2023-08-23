@@ -115,27 +115,19 @@ public class LoadTanks : MonoBehaviour
     // eg. Development server / iOS ODR / web URL
     void InitializeSourceURL()
     {
-        // If ODR is available and enabled, then use it and let Xcode handle download requests.
-        #if ENABLE_IOS_ON_DEMAND_RESOURCES
-        if (UnityEngine.iOS.OnDemandResources.enabled)
-        {
-            AssetBundleManager.SetSourceAssetBundleURL("odr://");
-            return;
-        }
-        #endif
-        #if DEVELOPMENT_BUILD || UNITY_EDITOR
+#if DEVELOPMENT_BUILD || UNITY_EDITOR
         // With this code, when in-editor or using a development builds: Always use the AssetBundle Server
         // (This is very dependent on the production workflow of the project.
         //      Another approach would be to make this configurable in the standalone player.)
         AssetBundleManager.SetDevelopmentAssetBundleServer();
         return;
-        #else
+#else
         // Use the following code if AssetBundles are embedded in the project for example via StreamingAssets folder etc:
         AssetBundleManager.SetSourceAssetBundleURL(Application.dataPath + "/");
         // Or customize the URL based on your deployment or configuration
         //AssetBundleManager.SetSourceAssetBundleURL("http://www.MyWebsite/MyAssetBundles");
         return;
-        #endif
+#endif
     }
 
     // Initialize the downloading url and AssetBundleManifest object.
